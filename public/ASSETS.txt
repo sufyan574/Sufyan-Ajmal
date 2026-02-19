@@ -1,0 +1,6 @@
+Add these image files for the portfolio to display correctly:
+
+1. my-photo.jpg  (square photo for About section) - place in: public/
+2. project1.jpg through project6.jpg (project screenshots) - place in: public/projects/
+
+You can replace the placeholder images after running the app once (placeholders are created by the script).

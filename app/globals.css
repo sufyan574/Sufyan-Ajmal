@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0f1419;
+  --foreground: #e2e8f0;
+  --accent: #22c55e;
+  --muted: #94a3b8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+@layer utilities {
+  .section-padding {
+    @apply px-6 py-16 sm:px-8 md:px-12 lg:px-20 lg:py-24;
+  }
+  .container-narrow {
+    @apply mx-auto max-w-5xl;
+  }
+  .container-wide {
+    @apply mx-auto max-w-6xl;
+  }
+}
+
+/* Subtle gradient overlay for hero */
+.hero-gradient {
+  background: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(34, 197, 94, 0.15),
+    transparent
+  );
+}
+
+/* Card hover lift */
+.card-hover {
+  @apply transition-all duration-300 ease-out;
+}
+.card-hover:hover {
+  @apply -translate-y-1 shadow-xl shadow-primary-500/10;
+}
+
+/* Focus visible for accessibility */
+a:focus-visible,
+button:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
