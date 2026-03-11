@@ -15,6 +15,8 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const [errorMsg, setErrorMsg] = useState('');
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -24,16 +26,37 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setIsSuccess(false);
+    setErrorMsg('');
 
-    // Simulate API call / form submission
-    setTimeout(() => {
+    try {
+      // Call the API route for sending email
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsSuccess(true);
+        setFormData({ fullName: "", email: "", subject: "", message: "" });
+      } else {
+        // Show error message returned by API if any
+        setErrorMsg(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setErrorMsg('Failed to send message. Please try again later.');
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setFormData({ fullName: "", email: "", subject: "", message: "" });
-    }, 1200);
+    }
   };
 
   return (
@@ -147,6 +170,12 @@ export default function Contact() {
             {isSuccess && (
               <p className="mt-6 text-center text-base font-medium text-primary-400">
                 Message sent! I&apos;ll get back to you soon.
+              </p>
+            )}
+
+            {errorMsg && (
+              <p className="mt-6 text-center text-base font-medium text-red-500">
+                {errorMsg}
               </p>
             )}
 
